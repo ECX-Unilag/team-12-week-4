@@ -1,5 +1,7 @@
 'use strict';
 
+const server = http.createServer(app);
+const port = 9000 || process.env.PORT
 const http = require('http');
 const path = require("path");
 const express = require('express');
@@ -9,9 +11,6 @@ const pdf = require("html-pdf");
 let ejs = require("ejs");
 const app = express();
 const fileUpload = require('express-fileupload');
-const server = http.createServer(app);
-const port = 9000 || process.env.PORT
-
 
 app.set("view engine", "ejs");
 app.use(fileUpload());
