@@ -131,9 +131,8 @@ app.get("/api/generateCert/:username", (req, res) => {
 })
 
 
-
 app.listen(process.env.PORT, function () {
-    console.log('Express server listening on ', port);
+    console.log('Express server listening on ', process.env.PORT);
   });
 
 
