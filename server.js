@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const path = require("path");
 const fs  = require("fs");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const parse = require('csv-parser');
 const pdf = require("html-pdf");
 let ejs = require("ejs");
@@ -11,7 +13,8 @@ const fileUpload = require('express-fileupload');
 app.set("view engine", "ejs");
 app.use(fileUpload());
 app.use(express.json())
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 
@@ -20,7 +23,7 @@ app.get("/", function(req, res){
     res.send({"success":"Welcome to ECX-Unilag Certification System. Charles Ugbana built this!"});
 })
 
-app.post('/api/upload', function(req, res) {
+app.post('/api/upload', cors(), function(req, res) {
     if(req.body.secret !== process.env.secret){
         return res.send({"message":"Unauthorised!"});
     }
@@ -66,7 +69,7 @@ app.post('/api/upload', function(req, res) {
 
 
 
-app.post('/api/verification', function (req, res) {
+app.post('/api/verification', cors(), function (req, res) {
   fs.readdir(__dirname+"/tmp/csv/", function(err, file) {
       if(!file.length){
           res.send({"message":"Service is not available now. Try again later."})
@@ -90,7 +93,7 @@ app.post('/api/verification', function (req, res) {
   
 });
 
-app.get("/api/generateCert/:username", (req, res) => {
+app.get("/api/generateCert/:username", cors(), (req, res) => {
     ejs.renderFile(path.join(__dirname, '/views/', "cert-template.ejs"), {student: req.params.username}, (err, data) => {
     if (err) {
           res.send(err);
