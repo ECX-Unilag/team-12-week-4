@@ -1,8 +1,6 @@
 'use strict';
 
-const server = http.createServer(app);
 const port = 9000 || process.env.PORT
-const http = require('http');
 const path = require("path");
 const express = require('express');
 const fs  = require("fs");
@@ -135,11 +133,9 @@ app.get("/api/generateCert/:username", (req, res) => {
 })
 
 
-// Start server
-function startServer() {
-  server.listen(port, function () {
+
+app.listen(port, function () {
     console.log('Express server listening on ', port);
   });
-}
 
-setImmediate(startServer);
+
