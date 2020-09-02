@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 9000 || process.env.PORT
 const path = require("path");
 const fs  = require("fs");
 const parse = require('csv-parser');
@@ -133,7 +132,7 @@ app.get("/api/generateCert/:username", (req, res) => {
 
 
 
-app.listen(port, function () {
+app.listen(process.env.PORT, function () {
     console.log('Express server listening on ', port);
   });
 
