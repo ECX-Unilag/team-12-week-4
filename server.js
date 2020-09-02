@@ -1,13 +1,12 @@
-'use strict';
-
+const express = require('express');
+const app = express();
 const port = 9000 || process.env.PORT
 const path = require("path");
-const express = require('express');
 const fs  = require("fs");
 const parse = require('csv-parser');
 const pdf = require("html-pdf");
 let ejs = require("ejs");
-const app = express();
+
 const fileUpload = require('express-fileupload');
 
 app.set("view engine", "ejs");
