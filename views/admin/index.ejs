@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECX-Internship</title>
+    <script src="/js/admin-js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="/css/admin-css/styles.css">
+</head>
+<body>
+    
+   <header>
+        <div class="logo">
+           
+            
+        </div>
+        <ul class="menu">
+            <li><a  href="/">Home</a></li>
+            <li><a href="/admin">Administration</a></li>
+            <li><a href="#"> Contact</a></li>
+            <li><a href="#">About</a> </li>
+        </ul>
+        <div class="toggle-btn">
+            <div class="toggle-1 bar"></div>
+            <div class="toggle-2 bar"></div>
+            <div class="toggle-3 bar"></div>
+        </div>
+    </header>
+    <!--=========================================================================================================-->
+    <div class="container " id="alert" style="max-width: 100%; position: absolute;">
+        <%if(error && error.length > 0){%>
+         <div class="alert alert-danger single-row" style="margin-top: 15px; z-index: 1030;" role="alert">
+          <span><%=error%></span>
+          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
+        </div>
+        <%}%>
+        <%if(success && success.length > 0){%>
+         <div class="alert alert-success single-row" style="margin-top: 15px; z-index: 1030;"  role="alert">
+          <span><%=success%></span>
+          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
+        </div>
+       <%}%>
+      </div>
+      <!--======================================================================================================================-->
+    <div class="modal">
+        <div><a  href="/">Home</a></div>
+        <div><a href="/admin">Administration</a></div>
+        <div><a href="#"> Contact</a></div>
+        <div><a href="#">About</a> </div>
+    </div>
+   <section>
+    <h3>Administration Page</h3>
+    <form action="/api/upload" method="POST" enctype="multipart/form-data">
+       
+        <label for="file-input">File</label>
+        <div class="input-1">
+            <div>
+                <i class="fas fa-file-csv fa-lg"></i>
+                <p class="file-details">Upload File...</p>
+            </div>
+           <label for="file">
+               <img src="/img/admin-img/upload.svg" alt="upload files..." class="upload-icon" >
+            </label>
+            <input type="file" name="sampleFile" id="file" accept=".csv" required>
+        </div>
+        <label for="password">Password</label>
+        <div>
+            <input type="password" name="secret" id="password" required>
+        </div>
+        <input type="submit" value="ENTER" id="submit">
+       <!-- <span class="message"></span><span class="loader"><img src="5.svg" alt="loading"></span>-->
+    </form>
+</section>
+    <script src="/js/admin-js/app.js"></script>
+</body>
+</html>

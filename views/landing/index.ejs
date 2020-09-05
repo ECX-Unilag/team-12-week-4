@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECX-Internship</title>
+    <script src="/js/landing-js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="/css/landing-css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            
+        </div>
+        <ul class="menu">
+            <li><a  href="/">Home</a></li>
+            <li><a href="/admin">Administration</a></li>
+            <li><a href="#"> Contact</a></li>
+            <li><a href="#">About</a> </li>
+        </ul>
+        <div class="toggle-btn">
+            <div class="toggle-1 bar"></div>
+            <div class="toggle-2 bar"></div>
+            <div class="toggle-3 bar"></div>
+        </div>
+    </header>
+    <!--===========================================================================================================================-->
+    <div class="container " id="alert" style="max-width: 100%; position: absolute;">
+        <%if(error && error.length > 0){%>
+         <div class="alert alert-danger single-row" style="margin-top: 15px; z-index: 1030;" role="alert">
+          <span><%=error%></span>
+          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
+        </div>
+        <%}%>
+        <%if(success && success.length > 0){%>
+         <div class="alert alert-success single-row" style="margin-top: 15px; z-index: 1030;"  role="alert">
+          <span><%=success%></span>
+          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
+        </div>
+       <%}%>
+      </div>
+      <!--======================================================================================================================-->
+    <div class="modal">
+        <div><a  href="/">Home</a></div>
+        <div><a href="/admin">Administration</a></div>
+        <div><a href="#"> Contact</a></div>
+        <div><a href="#">About</a> </div>
+    </div>
+    <div class="box-1">
+        <div class="icons icon-1"><img src="/img/landing-img/settings.svg" alt="settings-icon"></div>
+        <div class="icons icon-2"><img src="/img/landing-img/html-coding.svg" alt="html tags"></div>
+    </div>
+    <form action="/api/verification" method="POST">
+        <div class="heading">Enter Your Email Address</div>
+        <p>Kindly input your e-mail address to get started</p>
+        <input type="email" name="email" id="email" required><br>
+        <input type="submit" value="SUBMIT" id="submit">
+       <!-- <span class="message"></span><span class="loader"><img src="/img/landing-img/5.svg" alt="loading"></span>-->
+    </form>
+    <div class="box-2">
+        <div class="icons icon-3"><img src="/img/landing-img/python.png" alt="python logo image"></div>
+        <div class="icons icon-4"><img src="/img/landing-img/ui_ux image.png" alt="ui_ux image"></div>
+    </div>
+    <script src="/js/landing-js/app.js"></script>
+</body>
+</html>

@@ -6,59 +6,89 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const parse = require('csv-parser');
 const pdf = require("html-pdf");
-let ejs = require("ejs");
-
+const ejs = require("ejs");
+const flash = require("connect-flash");
+const lowercaseKeys = require("lowercase-keys");
 const fileUpload = require('express-fileupload');
 
+app.use(require("express-session")({
+	secret: "Charles built this",
+	resave: false,
+	saveUninitialized: false
+}));
 app.set("view engine", "ejs");
 app.use(fileUpload());
-app.use(express.json())
+app.use(express.static(path.join(__dirname,"public")));
+app.use(express.json());
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(function(req, res, next){
+	res.locals.error = req.flash("error");
+	
+	res.locals.success = req.flash("success");
+	next();
+});
 
 
 
+app.get("/test", function(req, res){
+    res.send({"success":"Welcome to ECX-Unilag Certification System. Charles Ugbana built this!"});
+})
+
+app.get("/admin", function(req, res){
+    res.render("admin/index");
+})
 
 app.get("/", function(req, res){
-    res.send({"success":"Welcome to ECX-Unilag Certification System. Charles Ugbana built this!"});
+    res.render("landing/index");
 })
 
 app.post('/api/upload', cors(), function(req, res) {
     if(req.body.secret !== process.env.secret){
-        return res.send({"message":"Unauthorised!"});
+        req.flash("error", "Unauthorised!");
+        return res.redirect("/admin")
     }
     if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');  
+        req.flash("error", "No file was uploaded.");
+        return res.redirect("/admin"); 
     }
     const stringFile = req.files.sampleFile.name;
     if(stringFile.substr(stringFile.indexOf('.')) !== ".csv" || !stringFile.includes(".")){
-        return res.send({"message":"Error. Please upload a .csv file"})  
+        req.flash("error", "Error. Please upload a .csv file");
+        return res.redirect("/admin");  
     }
     var sampleFile = req.files.sampleFile,
                         file = sampleFile.name;
     fs.readdir(__dirname+"/tmp/csv/", function(err, files) {
         if (err) {
-            throw err;
+            req.flash("error", "Something went wrong. Please try again.");
+            return res.redirect("/admin");
         } else {
             if(!files.length){
                 
                 sampleFile.mv( "./tmp/csv/"+file, function(err) {
                     if (err){
-                        return res.status(500).send(err);}
-                    else{
-                        res.send({"message":"File uploaded!"});}
+                        req.flash("error", "Something went wrong. Please upload again.");
+                        return res.redirect("/admin");
+                    }else{
+                        req.flash("success", "File upload successful");
+                        return res.redirect("/admin");}
                 });
             }else{
                 for (const staleFile of files) {
                     fs.unlink(path.join("./tmp/csv/", staleFile), function(err) {
                           if (err)
-                            { throw err;}
+                            { req.flash("error", "Something went wrong. Please upload again.");
+                            return res.redirect("/admin");}
                           else{
                             sampleFile.mv( "./tmp/csv/"+file, function(err) {
-                        if (err){
-                            return res.status(500).send(err);}
-                        else{
-                            res.send({"message":"New file uploaded!"});}
+                                if (err){
+                                    req.flash("error", "Something went wrong. Please upload again.");
+                                    return res.redirect("/admin");}
+                                else{
+                                    req.flash("success", "File upload successful");
+                                    return res.redirect("/admin");}
                     });
                 }
             })
@@ -68,22 +98,26 @@ app.post('/api/upload', cors(), function(req, res) {
 
 
 
-
 app.post('/api/verification', cors(), function (req, res) {
   fs.readdir(__dirname+"/tmp/csv/", function(err, file) {
       if(!file.length){
-          res.send({"message":"Service is not available now. Try again later."})
+        req.flash("error", "Service is not available now. Try again later.");
+        return res.redirect("/");
+         
       }else{
        const results = [];
         fs.createReadStream('./tmp/csv/'+file)
         .pipe(parse())
         .on('data', (data) => results.push(data))
         .on('end', () => {
-        const item = results.find(item => item.email === req.body.email);
-           if(item.length !== 0){
-                res.redirect("/api/generateCert/"+item.name)
+        var item = results.find(item => item.email === req.body.email);
+           if(item){
+                item = lowercaseKeys(item)
+                req.flash("success", "Certificate generate.");
+                return res.redirect("/api/generateCert/"+item.name +"/" + item.track)
            }else{
-               res.send({"message":"Sorry, you are not eligible for certification."})
+            req.flash("error", "Sorry, you are not eligible for certification.");
+            return res.redirect("/");
            }
       
      });
@@ -93,8 +127,9 @@ app.post('/api/verification', cors(), function (req, res) {
   
 });
 
-app.get("/api/generateCert/:username", cors(), (req, res) => {
-    ejs.renderFile(path.join(__dirname, '/views/', "cert-template.ejs"), {student: req.params.username}, (err, data) => {
+app.get("/api/generateCert/:username/:track", cors(), (req, res) => {
+    ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
+        track: req.params.track}, (err, data) => {
     if (err) {
           res.send(err);
     } else {
@@ -110,11 +145,13 @@ app.get("/api/generateCert/:username", cors(), (req, res) => {
         };
         pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
             if (err) {
-                res.send({"message":"Something went wrong. Please try again."});
+                req.flash("error", "Something went wrong. Please try again.");
+                return res.redirect("/");
             } else {
                 res.download(`${req.params.username}.pdf`, (err)=>{
                     if(err){
-                        res.send({"message":"An error occured. Please try again."})
+                        req.flash("error", "Something went wrong. Please try again.");
+                        return res.redirect("/");
                     }else{
                         fs.unlink(path.join(`./${req.params.username}.pdf`), (err)=> {
                             if (err){
@@ -134,7 +171,7 @@ app.get("/api/generateCert/:username", cors(), (req, res) => {
 })
 
 
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log('Express server listening on ', process.env.PORT);
   });
 
