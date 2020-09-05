@@ -65,7 +65,7 @@ app.post('/api/upload', cors(), function(req, res) {
             req.flash("error", "Something went wrong. Please try again.");
             return res.redirect("/admin");
         } else {
-            if(!files.length){
+            if(!files){
                 
                 sampleFile.mv( "./tmp/csv/"+file, function(err) {
                     if (err){
@@ -98,9 +98,9 @@ app.post('/api/upload', cors(), function(req, res) {
 
 
 
-app.post('/api/verification', cors(), function (req, res) {
+app.post('/api/verification', cors, function (req, res) {
   fs.readdir(__dirname+"/tmp/csv/", function(err, file) {
-      if(!file.length){
+      if(!file){
         req.flash("error", "Service is not available now. Try again later.");
         return res.redirect("/");
          
@@ -171,7 +171,7 @@ app.get("/api/generateCert/:username/:track", cors(), (req, res) => {
 })
 
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT, function () {
     console.log('Express server listening on ', process.env.PORT);
   });
 
