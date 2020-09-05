@@ -16,6 +16,7 @@ app.use(require("express-session")({
 	resave: false,
 	saveUninitialized: false
 }));
+app.use(cors());
 app.set("view engine", "ejs");
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname,"public")));
@@ -44,7 +45,7 @@ app.get("/", function(req, res){
     res.render("landing/index");
 })
 
-app.post('/api/upload', cors(), function(req, res) {
+app.post('/api/upload',  function(req, res) {
     if(req.body.secret !== process.env.secret){
         req.flash("error", "Unauthorised!");
         return res.redirect("/admin")
@@ -84,7 +85,7 @@ app.post('/api/upload', cors(), function(req, res) {
                           else{
                             sampleFile.mv( "./tmp/csv/"+file, function(err) {
                                 if (err){
-                                    req.flash("error", "Something went wrong. Please upload again.");
+                                    req.flash("error", "Something went wrong. Please try again.");
                                     return res.redirect("/admin");}
                                 else{
                                     req.flash("success", "File upload successful");
@@ -98,10 +99,9 @@ app.post('/api/upload', cors(), function(req, res) {
 
 
 
-app.post('/api/verification', cors, function (req, res) {
-  fs.readdir(__dirname+"/tmp/csv/", function(err, file) {
-      console.log(file)
-      if(!file){
+app.post('/api/user/verification',  function (req, res) {
+  fs.readdir("./tmp/csv/", function(err, file) {
+      if(file.length === 0){
         req.flash("error", "Service is not available now. Try again later.");
         return res.redirect("/");
          
@@ -128,7 +128,7 @@ app.post('/api/verification', cors, function (req, res) {
   
 });
 
-app.get("/api/generateCert/:username/:track", cors(), (req, res) => {
+app.get("/api/generateCert/:username/:track", (req, res) => {
     ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
         track: req.params.track}, (err, data) => {
     if (err) {
