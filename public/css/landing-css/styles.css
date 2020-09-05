@@ -31,11 +31,11 @@ header {
 }
 
 div.alert-success{
-  background-color: green;
+  background-color: #409a3a;
 }
 
 div.alert-danger{
-  background-color: red;
+  background-color: #906464;
 }
 a {
   text-decoration: none;

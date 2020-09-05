@@ -25,14 +25,14 @@
         </div>
     </header>
     <!--===========================================================================================================================-->
-    <div class="container " id="alert" style="max-width: 100%; position: absolute;">
+    <div class="container " id="alert" style="max-width: 100%; margin-top: 52px; ">
         <%if(error && error.length > 0){%>
-         <div class="alert alert-danger" style="margin-top: 15px; z-index: 1030;" role="alert">
+         <div class="alert alert-danger" style="margin-top: 15px; z-index: 1030; padding: 10px;" role="alert">
           <span><%=error%></span>
         </div>
         <%}%>
         <%if(success && success.length > 0){%>
-         <div class="alert alert-success" style="margin-top: 15px; z-index: 1030;"  role="alert">
+         <div class="alert alert-success" style="margin-top: 15px; z-index: 1030; padding: 10px;"  role="alert">
           <span><%=success%></span>
         </div>
        <%}%>
