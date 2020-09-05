@@ -60,12 +60,12 @@ app.post('/api/upload', cors(), function(req, res) {
     }
     var sampleFile = req.files.sampleFile,
                         file = sampleFile.name;
-    fs.readdir(__dirname+"/tmp/csv/", function(err, files) {
+    fs.readdir("./tmp/csv/", function(err, files) {
         if (err) {
             req.flash("error", "Something went wrong. Please try again.");
             return res.redirect("/admin");
         } else {
-            if(!files){
+            if(!files.length){
                 
                 sampleFile.mv( "./tmp/csv/"+file, function(err) {
                     if (err){
