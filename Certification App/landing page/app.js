@@ -47,20 +47,20 @@ submitBtn.addEventListener('click',function(){
        let params={
             email:email.value
         }
-        const url=`https://cors-anywhere.herokuapp.com/https://ecx.herokuapp.com/api/verification`; 
+        const url=`https://ecx.herokuapp.com/api/verification`;
         $.ajax({//this is used to control the loader
             type:"POST",
             url:url,
             dataType:"json",
 
-            beforeSend:function(){//this 
+            beforeSend:function(){//this
                 $(".loader").show();
             },
 
             complete:function(){
                 $(".loader").hide();
             }
-            
+
         })
         makeApiCall(url,params);
         email.value="";
@@ -94,5 +94,5 @@ makeApiCall=(url,params)=>{
         .catch(error =>{
             console.log(` error occured : ${error}`);
             message.textContent="Sorry,email not found";
-        })        
+        })
 }

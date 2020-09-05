@@ -64,20 +64,20 @@ submit.addEventListener('click',function(){
             sampleFile:`${file.files[0]}`,
             secret:password.value
         }
-        const url=`https://cors-anywhere.herokuapp.com/https://ecx.herokuapp.com/api/upload`; 
+        const url=`https://ecx.herokuapp.com/api/upload`;
         $.ajax({//this is used to control the loader
             type:"POST",
             url:url,
             dataType:"json",
 
-            beforeSend:function(){//this 
+            beforeSend:function(){//this
                 $(".loader").show();
             },
 
             complete:function(){
                 $(".loader").hide();
             }
-            
+
         })
         makeApiCall(url,params);
         password.value="";
@@ -111,5 +111,5 @@ makeApiCall=(url,params)=>{
         .catch(error =>{
             console.log(` error occured : ${error}`);
             message.textContent="Sorry,email not found";
-        })        
+        })
 }
