@@ -100,6 +100,7 @@ app.post('/api/upload', cors(), function(req, res) {
 
 app.post('/api/verification', cors, function (req, res) {
   fs.readdir(__dirname+"/tmp/csv/", function(err, file) {
+      console.log(file)
       if(!file){
         req.flash("error", "Service is not available now. Try again later.");
         return res.redirect("/");

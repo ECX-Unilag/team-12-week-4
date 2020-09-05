@@ -6,7 +6,6 @@
     <title>ECX-Internship</title>
     <script src="/js/landing-js/jquery-3.4.1.js"></script>
     <link rel="stylesheet" href="/css/landing-css/styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
@@ -28,15 +27,13 @@
     <!--===========================================================================================================================-->
     <div class="container " id="alert" style="max-width: 100%; position: absolute;">
         <%if(error && error.length > 0){%>
-         <div class="alert alert-danger single-row" style="margin-top: 15px; z-index: 1030;" role="alert">
+         <div class="alert alert-danger" style="margin-top: 15px; z-index: 1030;" role="alert">
           <span><%=error%></span>
-          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
         </div>
         <%}%>
         <%if(success && success.length > 0){%>
-         <div class="alert alert-success single-row" style="margin-top: 15px; z-index: 1030;"  role="alert">
+         <div class="alert alert-success" style="margin-top: 15px; z-index: 1030;"  role="alert">
           <span><%=success%></span>
-          <i class="fas fa-times-circle float-right py-2" style="font-size: 18px;" onclick="alertHide()"></i>
         </div>
        <%}%>
       </div>

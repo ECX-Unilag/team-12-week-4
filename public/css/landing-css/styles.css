@@ -30,6 +30,13 @@ header {
   width: 100%;
 }
 
+div.alert-success{
+  background-color: green;
+}
+
+div.alert-danger{
+  background-color: red;
+}
 a {
   text-decoration: none;
   color: var(--secondary-color-1, black);

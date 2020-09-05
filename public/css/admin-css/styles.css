@@ -8,6 +8,13 @@ body {
   background-color: var(--primary-color, #FFFFFF);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+div.alert-success{
+  background-color: green;
+}
+
+div.alert-danger{
+  background-color: red;
+}
 
 header {
   display: -webkit-box;
