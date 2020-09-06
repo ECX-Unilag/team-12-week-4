@@ -4,33 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
-    <link rel="stylesheet" href="/css/cert-css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Gayathri:wght@100&family=Orbitron:wght@500&family=League+Script&family=Ubuntu&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing: border-box;}
+        body {
+        
+  background-color: #FFFFFF;
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  width: 1000px;
+  height: 770px;
+  margin: auto;
+  background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1599360003/ECXi_frame_fasumd.jpg");
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.info {
+  width: 70%;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+}
+
+.sub-info-1 {
+  text-align: center;
+  font-family: 'Gayathri', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  font-family: 'Lobster', cursive;
+  margin-bottom: 0;
+}
+
+.name {
+  border-bottom: solid 1px;
+  font-size: 1.6rem;
+  margin-top: 30px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.sub-info-2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: inherit;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.exco {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.position {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+.signature {
+
+  margin-top: 0;
+  font-family: 'League Script', cursive;
+}
+
+.signature span {
+font-weight: bold;
+  position: relative;
+  bottom: -10px;
+}
+
+.exco-name{
+    font-family: 'Orbitron', sans-serif;
+}
+    </style>
 </head>
 <body>
-    <div class="container" >
-        <div>
-        <div class="box-1">
+    <div class="container">
+        
+        <div class="info">
             <h1>Certificate of Completion</h1>
-            <div>This to Certify that</div>
-            <div class="name"><%=student%></div>
-            <div>has completed his/her internship at Engineering Career Expo from August 2020 to September 2020. <%=track%></div>
-            <div>We found him/her hardworking ,dedicated and result oriented. He/She worked well as part of a team during
-                his/her tenure. We take this opportunity to wish him/her all the best in the future.
+            <div class="sub-info-1">
+                <div>This to certify that</div>
+                <div class="name"><%-student.toUpperCase()%></div>
+                <div>has completed his/her internship at Engineering Career Expo from August 2020 to September 2020 in <%=track%> track.</div>
+                <div>We found him/her hardworking, dedicated and result-oriented. He/She worked well as part of a team during
+                    his/her tenure. We take this opportunity to wish him/her all the best in the future.
+                </div>
+                <div class="sub-info-2">
+                    <div class="exco">
+                        <div class="signature name"><span>Geektutor</span></div>
+                        <div class="exco-name">Sodiq Akinjobi</div>
+                        <div class="position">Chairman</div>
+                    </div>
+                    <div class="exco">
+                        <div class="signature name"><span>IfihanOluseye</span></div>
+                        <div class="exco-name">Ifihan Oluseye</div>
+                        <div class="position">Team Co-ordinator</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="box-2">
-            <div class="exco">
-                <div class="signature"></div>
-                <div class="name">Sodiq Akinjobi</div>
-                <div class="position">Chairman</div>
-            </div>
-            <div class="exco">
-                <div class="signature"></div>
-                <div class="name">Ifihan Oluseye</div>
-                <div class="position">Team Co-ordinator</div>
-            </div>
-        </div>
-        </div>
-    </div>
+    </div>  
 </body>
 </html>

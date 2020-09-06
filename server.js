@@ -129,20 +129,15 @@ app.post('/api/user/verification',  function (req, res) {
 });
 
 app.get("/api/generateCert/:username/:track", (req, res) => {
-    ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
+      ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
         track: req.params.track}, (err, data) => {
     if (err) {
           res.send(err);
     } else {
         let options = {
-            "height": "11.25in",
-            "width": "8.5in",
-            "header": {
-                "height": "20mm"
-            },
-            "footer": {
-                "height": "20mm",
-            },
+            "format": "A4",
+            "orientation": "landscape",
+           
         };
         pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
             if (err) {
@@ -170,6 +165,10 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
     }
 });
 })
+
+
+
+  
 
 
 app.listen(process.env.PORT, function () {
