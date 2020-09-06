@@ -137,6 +137,7 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
         let options = {
             "format": "A4",
             "orientation": "landscape",
+            
            
         };
         pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
