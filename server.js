@@ -135,8 +135,8 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
           res.send(err);
     } else {
         let options = {
-            "format": "A4",
-            "orientation": "landscape",
+            "height":"210mm",
+            "width":"297mm",
             
            
         };
