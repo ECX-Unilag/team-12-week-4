@@ -145,7 +145,7 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
                 req.flash("error", "Something went wrong. Please try again.");
                 return res.redirect("/");
             } else {
-                res.download(`${req.params.username}.pdf`, (err)=>{
+                res.download(`./${req.params.username}.pdf`, (err)=>{
                     if(err){
                         req.flash("error", "Something went wrong. Please try again.");
                         return res.redirect("/");
