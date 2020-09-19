@@ -19,7 +19,7 @@ The team looked forward to taking up a task that will benefit every intern. With
 
 TO UPLOAD .csv FILE:
 
-Admin pass: `excinternship2020-team12`
+Admin pass is required.
 
 
 ===================================================================

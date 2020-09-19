@@ -45,6 +45,9 @@ app.get("/", function(req, res){
     res.render("landing/index");
 })
 
+app.get("/hi", function(req, res){
+    res.render("certificate/index");
+})
 app.post('/api/upload',  function(req, res) {
     if(req.body.secret !== process.env.secret){
         req.flash("error", "Unauthorised!");
@@ -114,14 +117,18 @@ app.post('/api/user/verification',  function (req, res) {
         var item = results.find(item => item.email === req.body.email);
            if(item){
                 item = lowercaseKeys(item)
-                req.flash("success", "Certificate generate.");
-                return res.redirect("/api/generateCert/"+item.name +"/" + item.track)
+                if(item.track !== "Mentor"){
+                    return res.redirect("/api/generateCert/"+item.name +"/" + item.track)
+                }else{
+                    return res.redirect("/api/generateCert/"+item.name)
+                }     
            }else{
             req.flash("error", "Sorry, you are not eligible for certification.");
             return res.redirect("/");
            }
       
      });
+
     }
         
   })
@@ -135,8 +142,9 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
           res.send(err);
     } else {
         let options = {
-            "height":"210mm",
-            "width":"297mm",
+            "format":"A4",
+            "orientation":"landscape"
+            //210 297
             
            
         };
@@ -164,6 +172,42 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
             }
         });
     }
+});
+})
+
+app.get("/api/generateCert/:username", (req, res) => {
+    ejs.renderFile(path.join(__dirname, '/views/certificate', "mentor.ejs"), {mentor: req.params.username}, (err, data) => {
+  if (err) {
+        res.send(err);
+  } else {
+      let options = {
+          "height":"210mm",
+          "width":"297mm",  
+      };
+      pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
+          if (err) {
+              req.flash("error", "Something went wrong. Please try again.");
+              return res.redirect("/");
+          } else {
+              res.download(`./${req.params.username}.pdf`, (err)=>{
+                  if(err){
+                      req.flash("error", "Something went wrong. Please try again.");
+                      return res.redirect("/");
+                  }else{
+                      fs.unlink(path.join(`./${req.params.username}.pdf`), (err)=> {
+                          if (err){
+                            console.log(err)
+                          }else{
+                              console.log("Certificate deleted from server.")
+                          }
+                      })
+                  }
+              
+              });
+              
+          }
+      });
+  }
 });
 })
 

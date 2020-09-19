@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
-    <link href="https://fonts.googleapis.com/css2?family=League+Script&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Gayathri:wght@100&family=Orbitron:wght@500&family=League+Script&family=Ubuntu&display=swap" rel="stylesheet">
     <style>
         *{box-sizing: border-box; text-align: center;}
         body {
         
   background-color: #FFFFFF;
-  background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
-  background-position: center;
-  background-size:cover;
-  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
   display: flex;
@@ -23,8 +19,13 @@
 
 .container {
   width: 100%;
-  height: 575px;
+  /*height: 570px;*/
+  height: 100%;
   margin: auto;
+  background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -49,22 +50,21 @@
 
 .sub-info-1 {
   text-align: center;
-  font-family: sans-serif;
+  font-family: 'Gayathri', sans-serif;
   font-size: 1.2rem;
-  margin-top: 50px;
   margin-bottom: 20px;
 }
 
 h1 {
-  font-size: 3.8rem;
-  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  font-family: 'Lobster', cursive;
   margin-bottom: 0;
 }
 
 .name {
-  font-size: 3.8rem;
+  font-size: 1.6rem;
   margin-top: 30px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .sub-info-2 {
@@ -77,10 +77,7 @@ h1 {
   justify-content:space-evenly;
   margin-top: 25px;
 }
-.track{
-  font-size: 3.8rem;
-  font-family: 'Montserrat', sans-serif;
-}
+
 .exco {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -104,7 +101,7 @@ font-weight: bold;
   position: relative;
   bottom: -10px;
 }
-hr.underline{ width: 250px; color: lawngreen; border: 1px solid; }
+hr.underline{width: 150px; color: lawngreen; background-color: lawngreen;}
 
 .exco-name{
     font-family: 'Orbitron', sans-serif;
@@ -115,16 +112,11 @@ hr.underline{ width: 250px; color: lawngreen; border: 1px solid; }
     <div class="container">
         <div class="info">
             <h1>CERTIFICATE</h1>
-            <h1 style="margin: 0; font-size: 2.5rem;">OF COMPLETION</h1>
+            <h2>OF PARTICIPATION</h2>
             <div class="sub-info-1">
-                <div>This certificate is awarded to</div>
-                <div class="name"><%-student.toUpperCase()%></div>
-                <div>for successfully completing the virtual internship at Engineering Career Expo, ECX 2.0 from August 2020 to September 2020</div>
-                <div>in</div>
-                <div class="track"><%-track.toUpperCase()%></div>
-                <div>We have found this intern to be a team player, 
-                  hardworking, inquisitive and result oriented, having fully participated in the team tasks.
-                </div>
+                <div>This certifies that</div>
+                <div class="name"><mentor.toUpperCase()%></div>
+                <div>provided excellent mentorship during the virtual internship at Engineering Career Expo, ECX 2.0 from August 2020 to September 2020</div>
 
                 <div class="sub-info-2">
                     <div class="exco">
