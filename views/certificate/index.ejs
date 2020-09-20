@@ -41,7 +41,7 @@
 }
 
 .info {
-  width: 85%;
+  width: 75%;
   text-align: center;
   align-self: center;
   justify-self: center;
@@ -50,8 +50,8 @@
 .sub-info-1 {
   text-align: center;
   font-family: sans-serif;
-  font-size: 1rem;
-  margin-top: 50px;
+  font-size: 0.9rem;
+  margin-top: 45px;
   margin-bottom: 20px;
 }
 
@@ -79,7 +79,7 @@ h1 {
   margin-top: 20px;
 }
 .track{
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   margin-top: 10px;
   margin-bottom: 10px;
   font-family: 'Montserrat', sans-serif;
@@ -106,9 +106,8 @@ h1 {
 
 .signature span {
 font-weight: bold;
-  bottom: -10px;
 }
-hr.underline{ width: 90%; color: lawngreen; border: 1px solid; }
+hr.underline{ width: 90%; color: lawngreen; border: 1px solid; margin-top: 0;}
 
 .exco-name{
     font-family: 'Orbitron', sans-serif;
@@ -122,36 +121,35 @@ hr.underline{ width: 90%; color: lawngreen; border: 1px solid; }
             <h1 style="margin: 0; font-size: 2rem;">OF COMPLETION</h1>
             <div class="sub-info-1">
                 <div>This certificate is awarded to</div>
-                <div class="name"><%-student.toUpperCase()%></div>
+                <div class="name"><student.toUpperCase()%></div>
                 <div>for successfully completing the virtual internship at Engineering Career Expo, ECX 2.0 from August 2020 to September 2020</div>
                 <div>in</div>
-                <div class="track"><%-track.toUpperCase()%></div>
+                <div class="track"><track.toUpperCase()%></div>
                 <div>We have found this intern to be a team player, 
                   hardworking, inquisitive and result oriented, having fully participated in the team tasks.
                 </div>
-
-                <div class="sub-info-2">
-                    <div class="exco">
-                        <div class="signature name"><span>Geektutor</span></div>
-                        <hr class="underline">
-                        <div class="exco-name">Sodiq Akinjobi</div>
-                        <div class="position">CHAIRMAN</div>
-                    </div>
-                    <div class="exco">
-                      <div class="signature name"><span>AbubakarYusuf</span></div>
-                      <hr class="underline">
-                      <div class="exco-name">Abubakar Yusuf</div>
-                      <div class="position">HEAD OF TRAINING</div>
-                    </div>
-                    <div class="exco">
-                        <div class="signature name"><span>IfihanOluseye</span></div>
-                        <hr class="underline">
-                        <div class="exco-name">Ifihan Oluseye</div>
-                        <div class="position">TEAM CO-ORDINATOR</div>
-                    </div>
-                </div>
             </div>
         </div>
+        <div class="sub-info-2">
+          <div class="exco">
+              <div class="signature name" style="margin-bottom: 0;"><span>Geektutor</span></div>
+              <hr class="underline">
+              <div class="exco-name">Sodiq Akinjobi</div>
+              <div class="position">CHAIRMAN</div>
+          </div>
+          <div class="exco">
+            <div class="signature name" style="margin-bottom: 0;"><span>AbubakarYusuf</span></div>
+            <hr class="underline">
+            <div class="exco-name">Abubakar Yusuf</div>
+            <div class="position">HEAD OF TRAINING</div>
+          </div>
+          <div class="exco">
+              <div class="signature name" style="margin-bottom: 0;"><span>IfihanOluseye</span></div>
+              <hr class="underline">
+              <div class="exco-name">Ifihan Oluseye</div>
+              <div class="position">TEAM CO-ORDINATOR</div>
+          </div>
+      </div>
     </div>  
 </body>
 </html>

@@ -10,6 +10,8 @@ const ejs = require("ejs");
 const flash = require("connect-flash");
 const lowercaseKeys = require("lowercase-keys");
 const fileUpload = require('express-fileupload');
+const jimp = require("jimp");
+const imagesToPdf = require("images-to-pdf");
 
 app.use(require("express-session")({
 	secret: "Charles built this",
@@ -45,9 +47,7 @@ app.get("/", function(req, res){
     res.render("landing/index");
 })
 
-app.get("/hi", function(req, res){
-    res.render("certificate/index");
-})
+
 app.post('/api/upload',  function(req, res) {
     if(req.body.secret !== process.env.secret){
         req.flash("error", "Unauthorised!");
@@ -135,6 +135,96 @@ app.post('/api/user/verification',  function (req, res) {
   
 });
 
+
+async function interns(name, track){
+  
+        const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
+        const font = await jimp.loadFont(jimp.FONT_SANS_100_BLACK);
+        image.print(font, 0, 0, name);
+        image.print(font, 100, 100, track);
+        image.write("./"+name+".png");
+    
+    
+};
+
+async function mentors(name){
+    const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
+    const font = await jimp.loadFont(jimp.FONT_SANS_100_BLACK);
+    image.print(font, x, y, name );
+    await image.write("./"+name+".png");
+    await imagesToPdf([`./${name}.png`], `./${name}.pdf`);
+
+};
+
+
+app.get("/api/generateCert/:username/:track", async (req, res) => {
+    const fullname = req.params.username.toUpperCase();
+    const devtrack = req.params.track.toUpperCase();
+    await interns(fullname, devtrack);
+    imagesToPdf([`./${fullname}.png`], `./${fullname}.pdf`)
+    .then(() =>{
+        res.download(`./${fullname}.pdf`, (err)=>{
+            if(err){
+                req.flash("error", "Something went wrong. Please try again....");
+                return res.redirect("/");
+            }else{
+                var files = [`./${fullname}.png`,`./${fullname}.pdf`];
+                files.forEach(function(filepath){
+                    fs.unlink(filepath, (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("files deleted from server.")
+                        }
+                    })
+                })
+                
+            }
+        
+        });
+    })
+    .catch((err)=>{
+        console.log(err.message)
+    })
+   
+})
+
+app.get("/api/generateCert/:username", async (req, res) => {
+    const fullname = req.params.username.toUpperCase();
+    await mentors(fullname)
+    imagesToPdf([`./${fullname}.png`], `./${fullname}.pdf`)
+    .then(() =>{
+        res.download(`./${fullname}.pdf`, (err)=>{
+            if(err){
+                req.flash("error", "Something went wrong. Please try again....");
+                return res.redirect("/");
+            }else{
+                var files = [`./${fullname}.png`,`./${fullname}.pdf`];
+                files.forEach(function(filepath){
+                    fs.unlink(filepath, (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("files deleted from server.")
+                        }
+                    })
+                })
+                
+            }
+        
+        });
+    })
+    .catch((err)=>{
+        console.log(err.message)
+    })
+   
+})
+
+/*
+=========================================================================
+THESE ROUTES ARE FOR RENDERING HTML FILE INTO PDF
+==============================================================================
+
 app.get("/api/generateCert/:username/:track", (req, res) => {
       ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
         track: req.params.track}, (err, data) => {
@@ -144,9 +234,7 @@ app.get("/api/generateCert/:username/:track", (req, res) => {
         let options = {
             "format":"A4",
             "orientation":"landscape"
-            //210 297
-            
-           
+            //210 297 
         };
         pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
             if (err) {
@@ -210,7 +298,7 @@ app.get("/api/generateCert/:username", (req, res) => {
   }
 });
 })
-
+*/
 
 
   
