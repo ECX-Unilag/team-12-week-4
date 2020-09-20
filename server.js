@@ -149,7 +149,7 @@ async function interns(name, track, callback){
 async function mentors(name, callback){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
     const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
-    image.print(font, x, y, name );
+    image.print(font, 100, 100, name );
     await image.write("./"+name+".png");
     callback();
     
