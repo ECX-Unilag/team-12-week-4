@@ -22,7 +22,9 @@
     "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
     "html-pdf": "^2.2.0",
-    "jimp": "^0.2.27",
-    "lowercase-keys": "^2.0.0"
+    "image-size": "^0.9.1",
+    "jimp": "^0.2.28",
+    "lowercase-keys": "^2.0.0",
+    "mkdirp": "^1.0.4"
   }
 }

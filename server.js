@@ -10,7 +10,7 @@ const ejs = require("ejs");
 const flash = require("connect-flash");
 const lowercaseKeys = require("lowercase-keys");
 const fileUpload = require('express-fileupload');
-const jimp = require("jimp");
+var Jimp = require("jimp");
 
 app.use(require("express-session")({
 	secret: "Charles built this",
@@ -44,6 +44,9 @@ app.get("/admin", function(req, res){
 
 app.get("/", function(req, res){
     res.render("landing/index");
+})
+app.get("/hi", function(req, res){
+    res.render("certificate/mentor");
 })
 
 
@@ -134,119 +137,45 @@ app.post('/api/user/verification',  function (req, res) {
   
 });
 
-
-async function interns(name, track, callback){
-    const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
-    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
-    image.print(font, 0, 0, name);
-    var track1 = track.replace(":", "/")
-    image.print(font, 100, 100, track1);
-    await image.write("./"+name+".png");
-    callback();
-    
-};
-
-async function mentors(name, callback){
-    const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
-    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
-    image.print(font, 100, 100, name );
-    await image.write("./"+name+".png");
-    callback();
-    
-};
-
+//=========================================================================
+//THESE ROUTES ARE FOR RENDERING HTML FILE INTO PDF
+//==============================================================================
 
 app.get("/api/generateCert/:username/:track", (req, res) => {
-    const fullname = req.params.username.toUpperCase();
-    const devtrack = req.params.track.toUpperCase();
-    interns(fullname, devtrack, () =>{
-        setTimeout(()=>{
-            res.download(`./${fullname}.png`, (err)=>{
-                if(err){
-                    req.flash("error", "Something went wrong. Please try again.");
-                    return res.redirect("/");
-                }else{
-                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
-                        if (err){
-                          console.log(err)
-                        }else{
-                            console.log("Certificate deleted from server.")
-                        }
-                    })
-                }
-            
-            });
-        }, 4000)
-        
-    })   
-   
-})
-
-app.get("/api/generateCert/:username", (req, res) => {
-    const fullname = req.params.username.toUpperCase();
-    mentors(fullname, () => {
-        setTimeout(()=>{
-            res.download(`./${fullname}.png`, (err)=>{
-                if(err){
-                    req.flash("error", "Something went wrong. Please try again.");
-                    return res.redirect("/");
-                }else{
-                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
-                        if (err){
-                          console.log(err)
-                        }else{
-                            console.log("Certificate deleted from server.")
-                        }
-                    })
-                }
-            })
-        }, 4000)
-    
-
-        
-        });
-})
-
-/*
-=========================================================================
-THESE ROUTES ARE FOR RENDERING HTML FILE INTO PDF
-==============================================================================
-
-app.get("/api/generateCert/:username/:track", (req, res) => {
-      ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
-        track: req.params.track}, (err, data) => {
-    if (err) {
-          res.send(err);
-    } else {
-        let options = {
-            "format":"A4",
-            "orientation":"landscape"
-            //210 297 
-        };
-        pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
-            if (err) {
-                req.flash("error", "Something went wrong. Please try again.");
-                return res.redirect("/");
-            } else {
-                res.download(`./${req.params.username}.pdf`, (err)=>{
-                    if(err){
-                        req.flash("error", "Something went wrong. Please try again.");
-                        return res.redirect("/");
-                    }else{
-                        fs.unlink(path.join(`./${req.params.username}.pdf`), (err)=> {
-                            if (err){
-                              console.log(err)
-                            }else{
-                                console.log("Certificate deleted from server.")
-                            }
-                        })
-                    }
-                
-                });
-                
-            }
-        });
-    }
+    ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
+      track: req.params.track}, (err, data) => {
+  if (err) {
+        res.send(err);
+  } else {
+      let options = {
+          "format":"A4",
+          "orientation":"landscape"
+          //210 297 
+      };
+      pdf.create(data, options).toFile( `${req.params.username}.pdf`, function (err, data) {
+          if (err) {
+              req.flash("error", "Something went wrong. Please try again.");
+              return res.redirect("/");
+          } else {
+              res.download(`./${req.params.username}.pdf`, (err)=>{
+                  if(err){
+                      req.flash("error", "Something went wrong. Please try again.");
+                      return res.redirect("/");
+                  }else{
+                      fs.unlink(path.join(`./${req.params.username}.pdf`), (err)=> {
+                          if (err){
+                            console.log(err)
+                          }else{
+                              console.log("Certificate deleted from server.")
+                          }
+                      })
+                  }
+              
+              });
+              
+          }
+      });
+  }
 });
 })
 
@@ -285,7 +214,113 @@ app.get("/api/generateCert/:username", (req, res) => {
   }
 });
 })
+
+/*
+async function interns(name, track, callback){
+    const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
+    const font = await jimp.loadFont("./fonts/Montserrat-SemiBold.ttf.fnt");
+    image.print(font, 0, 0, name);
+    var track1 = track.replace(":", "/")
+    image.print(font, 500, 1200, track1);
+    await image.write("./"+name+".png");
+    callback();
+    
+};
+
+function mentors(name, callback){
+    //const image = await jimp.read("frame 5.jpg");
+   // const width = await jimp.measureText(jimp.FONT_SANS_128_BLACK, name);
+    //https://res.cloudinary.com/charlene04/image/upload/v1600616005/frame_5_woq36g.jpg
+   // jimp.loadFont("./fonts/mentors/SourceSerifPro-SemiBold.ttf.fnt").then((font) => {
+   //     image.print(font, (image.bitmap.width - width)/ 2, 1080, name);
+   //     image.write("./"+name+".png");
+   // })
+   // .catch((err)=>{
+   //     console.log(err.message)
+   // })
+   // callback();
+    Jimp.read('./frame 5.jpg', (err, image) => {
+        if (err) throw err;
+        Jimp.loadFont("./fonts/mentors/SourceSerifPro-SemiBold.ttf.fnt", (err, font) => {
+          var w = image.bitmap.width;
+          var h = image.bitmap.height;
+          let text =   `${name}`;
+          var textWidth = Jimp.measureText(font, text);
+          var textHight = Jimp.Jimp.measureTextHeight(font, text);
+          image
+            .print(font, w/2 - textWidth/2, 1080,
+              {   
+              text: text,
+              //alignmentX: jimp.HORIZONTAL_ALIGN_CENTER,                                                                                                                      
+              //alignmentY: jimp.VERTICAL_ALIGN_MIDDLE,
+              }, textWidth, textHight)
+            .write("./"+name+".png"); // save
+        }); 
+        callback();
+          //.resize(256, 256) // resize
+          //.quality(60) // set JPEG quality
+          //.greyscale() // set greyscale
+      });
+
+    
+};
+
+
+
+
+app.get("/api/generateCert/:username/:track", (req, res) => {
+    var fullname = req.params.username.toUpperCase();
+    var devtrack = req.params.track.toUpperCase();
+    interns(fullname, devtrack, () =>{
+        setTimeout(()=>{
+            res.download(`./${fullname}.png`, (err)=>{
+                if(err){
+                    req.flash("error", "Something went wrong. Please try again.");
+                    return res.redirect("/");
+                }else{
+                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("Certificate deleted from server.")
+                        }
+                    })
+                }
+            
+            });
+        }, 3000)
+        
+    })   
+   
+})
+
+app.get("/api/generateCert/:username", (req, res) => {
+    const fullname = req.params.username.toUpperCase();
+    mentors(fullname, () => {
+        setTimeout(()=>{
+            res.download(`./${fullname}.png`, (err)=>{
+                if(err){
+                    req.flash("error", "Something went wrong. Please try again.");
+                    return res.redirect("/");
+                }else{
+                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("Certificate deleted from server.")
+                        }
+                    })
+                }
+            })
+        }, 3000)
+    
+
+        
+        });
+})
 */
+
+
 
 
   
