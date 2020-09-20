@@ -137,87 +137,64 @@ app.post('/api/user/verification',  function (req, res) {
 
 
 async function interns(name, track){
-  
-        const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
-        const font = await jimp.loadFont(jimp.FONT_SANS_100_BLACK);
-        image.print(font, 0, 0, name);
-        image.print(font, 100, 100, track);
-        image.write("./"+name+".png");
-    
+    const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
+    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
+    image.print(font, 0, 0, name);
+    image.print(font, 100, 100, track);
+    await image.write("./"+name+".png");
+    await imagesToPdf("./"+name+".png", "./"+name+".pdf");
     
 };
 
 async function mentors(name){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
-    const font = await jimp.loadFont(jimp.FONT_SANS_100_BLACK);
+    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
     image.print(font, x, y, name );
     await image.write("./"+name+".png");
-    await imagesToPdf([`./${name}.png`], `./${name}.pdf`);
-
+    
 };
 
 
 app.get("/api/generateCert/:username/:track", async (req, res) => {
     const fullname = req.params.username.toUpperCase();
     const devtrack = req.params.track.toUpperCase();
-    await interns(fullname, devtrack);
-    imagesToPdf([`./${fullname}.png`], `./${fullname}.pdf`)
-    .then(() =>{
-        res.download(`./${fullname}.pdf`, (err)=>{
+    await interns(fullname, devtrack)
+    res.download(`./${fullname}.png`, (err)=>{
             if(err){
-                req.flash("error", "Something went wrong. Please try again....");
+                req.flash("error", "Something went wrong. Please try again.");
                 return res.redirect("/");
             }else{
-                var files = [`./${fullname}.png`,`./${fullname}.pdf`];
-                files.forEach(function(filepath){
-                    fs.unlink(filepath, (err)=> {
-                        if (err){
-                          console.log(err)
-                        }else{
-                            console.log("files deleted from server.")
-                        }
-                    })
+                fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                    if (err){
+                      console.log(err)
+                    }else{
+                        console.log("Certificate deleted from server.")
+                    }
                 })
-                
             }
         
         });
-    })
-    .catch((err)=>{
-        console.log(err.message)
-    })
    
 })
 
 app.get("/api/generateCert/:username", async (req, res) => {
     const fullname = req.params.username.toUpperCase();
     await mentors(fullname)
-    imagesToPdf([`./${fullname}.png`], `./${fullname}.pdf`)
-    .then(() =>{
-        res.download(`./${fullname}.pdf`, (err)=>{
+    res.download(`./${fullname}.png`, (err)=>{
             if(err){
-                req.flash("error", "Something went wrong. Please try again....");
+                req.flash("error", "Something went wrong. Please try again.");
                 return res.redirect("/");
             }else{
-                var files = [`./${fullname}.png`,`./${fullname}.pdf`];
-                files.forEach(function(filepath){
-                    fs.unlink(filepath, (err)=> {
-                        if (err){
-                          console.log(err)
-                        }else{
-                            console.log("files deleted from server.")
-                        }
-                    })
+                fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                    if (err){
+                      console.log(err)
+                    }else{
+                        console.log("Certificate deleted from server.")
+                    }
                 })
-                
             }
         
         });
-    })
-    .catch((err)=>{
-        console.log(err.message)
-    })
-   
 })
 
 /*
