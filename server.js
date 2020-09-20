@@ -45,9 +45,7 @@ app.get("/admin", function(req, res){
 app.get("/", function(req, res){
     res.render("landing/index");
 })
-app.get("/hi", function(req, res){
-    res.render("certificate/mentor");
-})
+
 
 
 app.post('/api/upload',  function(req, res) {
