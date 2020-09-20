@@ -11,7 +11,6 @@ const flash = require("connect-flash");
 const lowercaseKeys = require("lowercase-keys");
 const fileUpload = require('express-fileupload');
 const jimp = require("jimp");
-const imagesToPdf = require("images-to-pdf");
 
 app.use(require("express-session")({
 	secret: "Charles built this",
@@ -142,7 +141,6 @@ async function interns(name, track){
     image.print(font, 0, 0, name);
     image.print(font, 100, 100, track);
     await image.write("./"+name+".png");
-    await imagesToPdf("./"+name+".png", "./"+name+".pdf");
     
 };
 
