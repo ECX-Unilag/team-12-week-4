@@ -24,7 +24,6 @@
     "html-pdf": "^2.2.0",
     "images-to-pdf": "^1.0.3",
     "jimp": "^0.2.27",
-    "lowercase-keys": "^2.0.0",
-    "pdfkit": "^0.11.0"
+    "lowercase-keys": "^2.0.0"
   }
 }
