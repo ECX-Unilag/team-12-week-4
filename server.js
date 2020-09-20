@@ -162,11 +162,15 @@ app.get("/api/generateCert/:username/:track", async (req, res) => {
                 req.flash("error", "Something went wrong. Please try again.");
                 return res.redirect("/");
             }else{
+                req.flash("error", "Something went wrong. Please try again.");
+                res.redirect("/");
                 fs.unlink(path.join(`./${fullname}.png`), (err)=> {
                     if (err){
                       console.log(err)
                     }else{
                         console.log("Certificate deleted from server.")
+                        req.flash("success", "Cerificate downloaded successfully.");
+                        return res.redirect("/");
                     }
                 })
             }
@@ -188,6 +192,8 @@ app.get("/api/generateCert/:username", async (req, res) => {
                       console.log(err)
                     }else{
                         console.log("Certificate deleted from server.")
+                        req.flash("success", "Cerificate downloaded successfully.");
+                        return res.redirect("/");
                     }
                 })
             }
