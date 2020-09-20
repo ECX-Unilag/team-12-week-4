@@ -116,7 +116,7 @@ app.post('/api/user/verification',  function (req, res) {
         .pipe(parse())
         .on('data', (data) => results.push(data))
         .on('end', () => {
-        var item = results.find(item => item.email === req.body.email);
+        var item = results.find(item => item.email.toLowerCase() === req.body.email.toLowerCase());
            if(item){
                 item = lowercaseKeys(item)
                 if(item.track !== "Mentor"){
@@ -143,7 +143,7 @@ app.post('/api/user/verification',  function (req, res) {
 
 app.get("/api/generateCert/:username/:track", (req, res) => {
     ejs.renderFile(path.join(__dirname, '/views/certificate', "index.ejs"), {student: req.params.username, 
-      track: req.params.track}, (err, data) => {
+      track: req.params.track.replace(":", "/")}, (err, data) => {
   if (err) {
         res.send(err);
   } else {

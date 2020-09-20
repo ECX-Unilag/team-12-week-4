@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Certification system for ECX2.0 designed by Team-12">
     <title>Certificate</title>
-    <link href="https://fonts.googleapis.com/css2?family=League+Script&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Source+Serif+Pro:wght@600&display=swap" rel="stylesheet">
     <style>
         *{box-sizing: border-box; text-align: center;}
+        html{
+          height: 95%;
+          width: 100%;
+          
+        }
+        
         body {
         
-  background-color: #FFFFFF;
-  background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
+          background-image: url("https://res.cloudinary.com/charlene04/image/upload/v1600635207/ecx_cert_daatia.png");
   background-position: center;
-  background-size:cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding:  10px 0;
+      }
 
 .container {
   width: 100%;
-  height: 575px;
-  margin: auto;
+  height: 100%;
+  
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -34,122 +40,29 @@
   flex-direction: column;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  align-items: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
 }
-
-.info {
-  width: 75%;
-  text-align: center;
-  align-self: center;
-  justify-self: center;
-}
-
-.sub-info-1 {
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 0.9rem;
-  margin-top: 45px;
-  margin-bottom: 20px;
-}
-
-h1 {
-  font-size: 2.5rem;
-  font-family: 'Montserrat', sans-serif;
-  margin-bottom: 0;
-}
-
-.name {
-  font-size: 2.5rem;
-  margin-top: 10px;
-  margin-bottom: 10px;
+h1.name{
+  margin-top: -15px;
+  font-size: 3rem;
+  color: #28b4e5;
   font-family: 'Montserrat', sans-serif;
 }
-
-.sub-info-2 {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: inherit;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content:space-evenly;
-  margin-top: 20px;
-}
-.track{
-  font-size: 2.2rem;
-  margin-top: 10px;
-  margin-bottom: 10px;
+h1.track{
+  padding-top: 10px;
+  margin-top: 15px;
+  font-size: 2.9rem;
+  color: #28b4e5;
   font-family: 'Montserrat', sans-serif;
-}
-.exco {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  width: 200px;
-}
-.position {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
-  font-weight: bold;
-}
-.signature {
-  font-size: 1rem;
-  font-family: 'League Script', cursive;
-}
-
-.signature span {
-font-weight: bold;
-}
-hr.underline{ width: 90%; color: lawngreen; border: 1px solid; margin-top: 0;}
-
-.exco-name{
-    font-family: 'Orbitron', sans-serif;
 }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="info">
-            <h1>CERTIFICATE</h1>
-            <h1 style="margin: 0; font-size: 2rem;">OF COMPLETION</h1>
-            <div class="sub-info-1">
-                <div>This certificate is awarded to</div>
-                <div class="name"><student.toUpperCase()%></div>
-                <div>for successfully completing the virtual internship at Engineering Career Expo, ECX 2.0 from August 2020 to September 2020</div>
-                <div>in</div>
-                <div class="track"><track.toUpperCase()%></div>
-                <div>We have found this intern to be a team player, 
-                  hardworking, inquisitive and result oriented, having fully participated in the team tasks.
-                </div>
-            </div>
-        </div>
-        <div class="sub-info-2">
-          <div class="exco">
-              <div class="signature name" style="margin-bottom: 0;"><span>Geektutor</span></div>
-              <hr class="underline">
-              <div class="exco-name">Sodiq Akinjobi</div>
-              <div class="position">CHAIRMAN</div>
-          </div>
-          <div class="exco">
-            <div class="signature name" style="margin-bottom: 0;"><span>AbubakarYusuf</span></div>
-            <hr class="underline">
-            <div class="exco-name">Abubakar Yusuf</div>
-            <div class="position">HEAD OF TRAINING</div>
-          </div>
-          <div class="exco">
-              <div class="signature name" style="margin-bottom: 0;"><span>IfihanOluseye</span></div>
-              <hr class="underline">
-              <div class="exco-name">Ifihan Oluseye</div>
-              <div class="position">TEAM CO-ORDINATOR</div>
-          </div>
-      </div>
+        <h1 class="name"><%-student.toUpperCase()%></h1>
+        <h1 class="track"><%-track.toUpperCase()%></h1>
     </div>  
 </body>
 </html>
