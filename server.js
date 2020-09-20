@@ -137,7 +137,7 @@ app.post('/api/user/verification',  function (req, res) {
 
 async function interns(name, track){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
-    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
+    const font = await jimp.loadFont(jimp.FONT_SANS_132_BLACK);
     image.print(font, 0, 0, name);
     image.print(font, 100, 100, track);
     await image.write("./"+name+".png");
@@ -146,7 +146,7 @@ async function interns(name, track){
 
 async function mentors(name){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
-    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
+    const font = await jimp.loadFont(jimp.FONT_SANS_132_BLACK);
     image.print(font, x, y, name );
     await image.write("./"+name+".png");
     
