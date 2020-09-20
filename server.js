@@ -135,68 +135,74 @@ app.post('/api/user/verification',  function (req, res) {
 });
 
 
-async function interns(name, track){
+async function interns(name, track, callback){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532444/ecx_cert_lyetl0.jpg");
     const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
     image.print(font, 0, 0, name);
-    image.print(font, 100, 100, track);
+    var track1 = track.replace(":", "/")
+    image.print(font, 100, 100, track1);
     await image.write("./"+name+".png");
+    callback();
     
 };
 
-async function mentors(name){
+async function mentors(name, callback){
     const image = await jimp.read("https://res.cloudinary.com/charlene04/image/upload/v1600532630/ecx_Mentor_pcnfx5.jpg");
     const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
     image.print(font, x, y, name );
     await image.write("./"+name+".png");
+    callback();
     
 };
 
 
-app.get("/api/generateCert/:username/:track", async (req, res) => {
+app.get("/api/generateCert/:username/:track", (req, res) => {
     const fullname = req.params.username.toUpperCase();
     const devtrack = req.params.track.toUpperCase();
-    await interns(fullname, devtrack)
-    res.download(`./${fullname}.png`, (err)=>{
-            if(err){
-                req.flash("error", "Something went wrong. Please try again.");
-                return res.redirect("/");
-            }else{
-                req.flash("error", "Something went wrong. Please try again.");
-                res.redirect("/");
-                fs.unlink(path.join(`./${fullname}.png`), (err)=> {
-                    if (err){
-                      console.log(err)
-                    }else{
-                        console.log("Certificate deleted from server.")
-                        req.flash("success", "Cerificate downloaded successfully.");
-                        return res.redirect("/");
-                    }
-                })
-            }
+    interns(fullname, devtrack, () =>{
+        setTimeout(()=>{
+            res.download(`./${fullname}.png`, (err)=>{
+                if(err){
+                    req.flash("error", "Something went wrong. Please try again.");
+                    return res.redirect("/");
+                }else{
+                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("Certificate deleted from server.")
+                        }
+                    })
+                }
+            
+            });
+        }, 4000)
         
-        });
+    })   
    
 })
 
-app.get("/api/generateCert/:username", async (req, res) => {
+app.get("/api/generateCert/:username", (req, res) => {
     const fullname = req.params.username.toUpperCase();
-    await mentors(fullname)
-    res.download(`./${fullname}.png`, (err)=>{
-            if(err){
-                req.flash("error", "Something went wrong. Please try again.");
-                return res.redirect("/");
-            }else{
-                fs.unlink(path.join(`./${fullname}.png`), (err)=> {
-                    if (err){
-                      console.log(err)
-                    }else{
-                        console.log("Certificate deleted from server.")
-                        req.flash("success", "Cerificate downloaded successfully.");
-                        return res.redirect("/");
-                    }
-                })
-            }
+    mentors(fullname, () => {
+        setTimeout(()=>{
+            res.download(`./${fullname}.png`, (err)=>{
+                if(err){
+                    req.flash("error", "Something went wrong. Please try again.");
+                    return res.redirect("/");
+                }else{
+                    fs.unlink(path.join(`./${fullname}.png`), (err)=> {
+                        if (err){
+                          console.log(err)
+                        }else{
+                            console.log("Certificate deleted from server.")
+                        }
+                    })
+                }
+            })
+        }, 4000)
+    
+
         
         });
 })
